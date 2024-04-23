@@ -13,6 +13,7 @@
 </head>
 <body>
 <div class="tw-bg-red-500">
+
      <!-- Navbar -->
    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="#">Real Estate Listing Platform</a>
@@ -20,6 +21,9 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 </nav>
+
+
+      <!-- Logout -->
 
 <br> <br>
     <div class="tailwind-section tw-p-4">
@@ -55,6 +59,7 @@
 
      <h3 align= "left"
    >
+           <!-- Search -->
 
         <form action="{% url 'search' %}" method="GET" class="header__search">
             {% csrf_token %}
@@ -74,12 +79,18 @@
         </form>
   </h3>
 
+
+  <!-- Filters -->
 <br>
     <a href="{% url 'filters' %}">
         <u><b>
        Filter
 </b> </u> </a>
 
+          <!-- Inquiries -->
+<br><a href="{% url 'inquiries' %}" class="text-blue-500">View Your Inquiries</a><br>
+
+          <!-- Add Platform -->
         <a href="{% url 'add-platform' %}"
             class="text-blue-500"
             style = font-size:120%;>
@@ -90,18 +101,17 @@
       </div>
 
 
-
+  <!-- Details -->
 {% for i in platform %}
 <br>
 <div class="mt-1 px-7 py-1 bg-gray-100 rounded-sm">
     <h3 style = font-family:Perpetua; class="text-3xl text-gray-900">{{ i.title }}</h3>
     <p class="text-gray-900">BDT {{ i.price }}</p>
     <p class="text-gray-700 text-sm">{{ i.location }}</p>
-    <a href="{% url 'details' i.id %}" class="text-blue-500">
-        View details
-    </a>
 
+    <a href="{% url 'details' i.id %}" class="text-blue-500">View details</a> <br>
 
+  <!-- Update & Delete Platform -->
     {% if request.user.is_staff %}
     <div class="mt-2 py-2 border-t border-gray-200">
         <a href="{% url 'update-platform' i.id %}" class="text-blue-500">Update</a>
