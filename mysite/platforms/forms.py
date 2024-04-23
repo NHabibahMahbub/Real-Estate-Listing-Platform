@@ -1,5 +1,4 @@
-from django import forms
-from .models import Platform
+from .models import Platform, Inquiry
 
 
 class PlatformForm(forms.ModelForm):
