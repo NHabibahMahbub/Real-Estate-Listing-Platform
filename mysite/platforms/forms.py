@@ -14,3 +14,10 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = Platform
         fields = ['query']
+
+
+
+class InquiryForm(forms.ModelForm):
+    class Meta:
+        model = Inquiry
+        fields = ['name', 'email', 'message']
