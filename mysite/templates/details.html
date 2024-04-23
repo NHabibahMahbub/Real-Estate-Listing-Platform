@@ -13,18 +13,25 @@
 
 
     <div class="container mt-4">
-   <h1>{{ platform.title }}</h1>
-        <p><strong>Property Type:</strong> {{ platform.property_type }}</p>
-        <p><strong>Price:</strong> {{ platform.price }}</p>
-        <p><strong>Size:</strong> {{ platform.size_sqft }} sqft</p>
-        <p><strong>Year Built:</strong> {{ platform.year_built }}</p>
-        <p><strong>Location:</strong> {{ platform.location }}</p>
-        <p><strong>City:</strong> {{ platform.city }}</p>
-        <p><strong>Country:</strong> {{ platform.country }}</p>
-        <p><strong>Listed Date:</strong> {{ platform.listed_date }}</p>
-        <br>
+   <h1>{{ property.title }}</h1>
+<p><strong>Property Type:</strong> {{ property.property_type }}</p>
+<p><strong>Price: $</strong> {{ property.price }}</p>
+<p><strong>Size:</strong> {{ property.size_sqft }} sqft</p>
+<p><strong>Year Built:</strong> {{ property.year_built }}</p>
+<p><strong>Location:</strong> {{ property.location }}</p>
+<p><strong>City:</strong> {{ property.city }}</p>
+<p><strong>Country:</strong> {{ property.country }}</p>
+<p><strong>Listed Date:</strong> {{ property.listed_date }}</p>
+
+        <h2>Contact the Owner</h2>
+        <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Send Inquiry">
+
         <a href="{% url 'home' %}"  style="margin-right: 10px;">Back to Home</a>
          <a href= "{% url 'search' %}"style="btn btn-secondary ml-2"  >            Back to Search</a>
+             </form>
     </div>
 
 {% endblock %}
