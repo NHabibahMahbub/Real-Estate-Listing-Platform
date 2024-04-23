@@ -1,5 +1,5 @@
 from django import forms
-from .models import Platform
+from .models import Platform, Inquiry
 
 
 class PlatformForm(forms.ModelForm):
@@ -14,3 +14,10 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = Platform
         fields = ['query']
+
+
+
+class InquiryForm(forms.ModelForm):
+    class Meta:
+        model = Inquiry
+        fields = ['name', 'email', 'message']

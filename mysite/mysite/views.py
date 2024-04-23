@@ -1,13 +1,13 @@
 from django.db.models import Q
-from django.shortcuts import render
-from platforms.models import Platform
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from platforms import forms
+from platforms.models import Platform, Inquiry
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from platforms.forms import SearchForm
+from platforms.forms import SearchForm, InquiryForm
+from platforms.notifications import send_inquiry_notification
 
 
 # Create your views here.
@@ -15,7 +15,6 @@ from platforms.forms import SearchForm
 @login_required(login_url='login')
 def home(request):
     platform = Platform.objects.all()
-
     return render(request, 'home.html', {
         "platform": platform
     })
@@ -58,13 +57,6 @@ def loginPage(request):
 def logoutPage(request):
     logout(request)
     return redirect('login')
-
-
-def details(request, p_id):
-    platform = Platform.objects.get(pk=p_id)
-    return render(request, 'details.html', {
-        "platform": platform
-    })
 
 
 def search(request):
@@ -129,3 +121,32 @@ def filters(request):
         'form': form,
         'unique_property_types': unique_property_types
     })
+
+
+# def details(request, p_id):
+# platform =
+# return render(request, 'details.html', {
+#     "platform": platform
+#  })
+
+def details(request, property_id):
+    property = get_object_or_404(Platform, pk=property_id)
+    if request.method == 'POST':
+        form = InquiryForm(request.POST)
+        if form.is_valid():
+            inquiry = form.save(commit=False)
+            inquiry.property = property
+            inquiry.user = request.user if request.user.is_authenticated else None
+            inquiry.save()
+            send_inquiry_notification(inquiry)
+            return HttpResponseRedirect(reverse('details', args=[property.id]))
+    else:
+        form = InquiryForm()
+    return render(request, 'details.html', {'property': property, 'form': form})
+
+
+@login_required
+def inquiries(request):
+    owner_properties = request.user.platform_set.all()
+    inquiry = Inquiry.objects.filter(platform__in=owner_properties)
+    return render(request, 'inquiries.html', {'inquiry': inquiry})

@@ -119,6 +119,16 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+STATIC_URL = '/static/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # SMTP server hostname
+EMAIL_PORT = 587  # Common ports: 587 (TLS), 465 (SSL), 25 (non-secure)
+EMAIL_USE_TLS = True  # Use TLS or SSL if required
+EMAIL_HOST_USER = 'azmi@gmail.com'  # SMTP account username
+EMAIL_HOST_PASSWORD = '123'  # SMTP account password
+DEFAULT_FROM_EMAIL = 'habs101300@gmail.com'  # Default sender email
+
 # import os
 
 # MEDIA_URL = '/media/'
